@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/orange">
+
+        <TextView
+            android:id="@+id/tv_month"
+            style="@style/text_white_16"
+            tools:text="6月"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:id="@+id/tv_week"
+            style="@style/text_white_8"
+            tools:text="周三"
+            android:layout_alignTop="@+id/tv_month"
+            android:layout_toRightOf="@+id/tv_month"/>
+        <TextView
+            android:id="@+id/tv_year"
+            style="@style/text_white_8"
+            android:text="2017年"
+            android:layout_alignBottom="@+id/tv_month"
+            android:layout_toRightOf="@+id/tv_month"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@+id/tv_month"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_week_sunday"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="8sp"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:text="周日"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_week_monday"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="8sp"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:text="周一"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_week_tuesday"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="8sp"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:text="周二"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_week_wednesday"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="8sp"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:text="周三"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_week_thursday"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="8sp"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:text="周四"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_week_friday"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="8sp"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:text="周五"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_week_saturday"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="8sp"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:text="周六"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/m_vp_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_title">
+
+    </android.support.v4.view.ViewPager>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/m_rv_extend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/m_vp_calendar">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+
+</RelativeLayout>
