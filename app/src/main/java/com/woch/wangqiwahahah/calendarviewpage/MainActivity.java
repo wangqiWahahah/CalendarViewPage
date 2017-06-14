@@ -22,9 +22,10 @@ public class MainActivity extends AppCompatActivity implements CalendarDataContr
                 .setCLICK_OUTSIDE_DATE_THING(true)
                 //.setOPEN_SELECT_RANGE()
                 //.setSELECT_RANGE_DATE_STYLE()
-                .setSHOW_CHINA_DATE(false)
+                .setSHOW_CHINA_DATE(true)
                 .setSHOW_OUTSIDE_DATE(true)
                 .setWEEKEND_GRAY(true)
+                .setSHOW_BAR(false)
                 .build();
 
         m_calendar_view = (MyCalendarView) findViewById(R.id.m_calendar_view);

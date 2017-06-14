@@ -81,6 +81,11 @@ public class MyCalendarView extends LinearLayout implements View.OnClickListener
         tv_week = (TextView) rl_title.findViewById(R.id.tv_week);
         tv_year = (TextView) rl_title.findViewById(R.id.tv_year);
         //m_rv_extend = (RecyclerView) view.findViewById(R.id.m_rv_extend);
+        if (functionConfig.isSHOW_BAR()){
+            rl_title.setVisibility(VISIBLE);
+        }else {
+            rl_title.setVisibility(GONE);
+        }
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());

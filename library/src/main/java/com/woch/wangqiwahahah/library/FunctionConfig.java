@@ -13,6 +13,7 @@ public class FunctionConfig {
     private boolean SHOW_CHINA_DATE;//显示农历
     private boolean WEEKEND_GRAY;//周末置灰
     private boolean CLICK_OUTSIDE_DATE_THING;//点击非本月日期展现该月
+    private boolean SHOW_BAR;//bar是否显示
 
     private FunctionConfig(final Builder builder){
 
@@ -23,6 +24,7 @@ public class FunctionConfig {
         this.SHOW_CHINA_DATE = builder.SHOW_CHINA_DATE;
         this.WEEKEND_GRAY = builder.WEEKEND_GRAY;
         this.CLICK_OUTSIDE_DATE_THING = builder.CLICK_OUTSIDE_DATE_THING;
+        this.SHOW_BAR = builder.SHOW_BAR;
 
     }
 
@@ -35,6 +37,12 @@ public class FunctionConfig {
         private boolean SHOW_CHINA_DATE = true;//显示农历
         private boolean WEEKEND_GRAY = true;//周末置灰
         private boolean CLICK_OUTSIDE_DATE_THING = false;//点击非本月日期展现该月
+        private boolean SHOW_BAR = true;//bar是否显示
+
+        public Builder setSHOW_BAR(boolean SHOW_BAR) {
+            this.SHOW_BAR = SHOW_BAR;
+            return this;
+        }
 
         public Builder setSHOW_OUTSIDE_DATE(boolean SHOW_OUTSIDE_DATE) {
             this.SHOW_OUTSIDE_DATE = SHOW_OUTSIDE_DATE;
@@ -77,6 +85,10 @@ public class FunctionConfig {
 
         }
 
+    }
+
+    public boolean isSHOW_BAR() {
+        return SHOW_BAR;
     }
 
     public boolean isSHOW_OUTSIDE_DATE() {

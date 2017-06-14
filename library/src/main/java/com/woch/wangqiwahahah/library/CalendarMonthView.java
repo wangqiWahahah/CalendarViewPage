@@ -504,8 +504,16 @@ public class CalendarMonthView extends ViewGroup{
             }
         }
 
-
-        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), month_width * 6);
+        int month_day_count = CalendarUtils.getInstance().getMonthOfDayCount(show_year, (show_month-1)); // 一个月有几天
+        int offset = getOffset(mDayOfWeekStart, mFirstDayOfWeek);
+        int all = month_day_count + offset;
+        int nub = 6;
+        if (all > 35){
+            nub = 6;
+        }else {
+            nub = 5;
+        }
+        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), month_width * nub);
         final int count = getChildCount();
         for (int i = 0; i < count; i++) {
             getChildAt(i).measure(month_width, month_width);
