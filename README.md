@@ -1,6 +1,7 @@
 # CalendarViewPage
 my first library
 我使用了XML的方式来实现month的item，这样我希望可以方便使用者进行自定义布局，而不需要去看代码来进行配置信息。
+接着我会继续开放一些属性，可以轻松的更改相关样式。
 
 //必须实现CalendarDataControl接口
 
