@@ -6,6 +6,8 @@ package com.woch.wangqiwahahah.library;
 
 public interface CalendarDataControl {
 
-    public abstract void getClickDate(String s_date, long l_date);
+    public abstract void getClickDate(String s_date);
+
+    public abstract int[] getShowTime();
 
 }

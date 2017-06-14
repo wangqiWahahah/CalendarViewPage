@@ -31,7 +31,13 @@ public class MyCalendarView extends LinearLayout implements View.OnClickListener
     private int show_year, show_month = 0;
     private int m_position = 100;
 
+    private FunctionConfig functionConfig;
+
     private CalendarPageAdapter calendarPageAdapter;
+
+    private BeforeClickDate beforeClickDate;
+
+    private CalendarDataControl calendarDataControl;
 
     public MyCalendarView(Context context) {
         super(context);
@@ -58,9 +64,16 @@ public class MyCalendarView extends LinearLayout implements View.OnClickListener
         //init(context);
     }
 
+    public void setFunctionConfig(FunctionConfig functionConfig){
+
+        this.functionConfig = functionConfig;
+
+    }
+
 
     private void init(){
 
+        beforeClickDate = new BeforeClickDate();
         View view = LayoutInflater.from(getContext()).inflate(R.layout.calendar_layout, null, false);
         rl_title = (RelativeLayout) view.findViewById(R.id.rl_title);
         m_vp_calendar = (ViewPager) view.findViewById(R.id.m_vp_calendar);
@@ -75,11 +88,19 @@ public class MyCalendarView extends LinearLayout implements View.OnClickListener
             show_year = calendar.get(Calendar.YEAR);
             show_month = calendar.get(Calendar.MONTH) + 1;
         }
-        calendarPageAdapter = new CalendarPageAdapter(getContext(), show_year, show_month, -1);
+        if (calendarDataControl == null){
+            throw new IllegalArgumentException("you should setControl");
+        }
+        if (functionConfig == null){
+            functionConfig = new FunctionConfig.Builder().build();
+        }
+        calendarPageAdapter = new CalendarPageAdapter(getContext(), show_year, show_month, -1, beforeClickDate, calendarDataControl, functionConfig);
 
         m_vp_calendar.setAdapter(calendarPageAdapter);
 
         m_vp_calendar.setCurrentItem(m_position);
+
+        calendarPageAdapter.setViewPage(m_vp_calendar);
 
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
@@ -94,7 +115,7 @@ public class MyCalendarView extends LinearLayout implements View.OnClickListener
 
     }
 
-    public void setShowTime(int year, int month){
+    private void setShowTime(int year, int month){
 
         if(year < 1970 || month <= 0){
             throw new IllegalArgumentException("time is wrong...");
@@ -103,6 +124,11 @@ public class MyCalendarView extends LinearLayout implements View.OnClickListener
         this.show_month = month;
         init();
 
+    }
+
+    public void setControl(CalendarDataControl calendarDataControl){
+        this.calendarDataControl = calendarDataControl;
+        setShowTime(calendarDataControl.getShowTime()[0], calendarDataControl.getShowTime()[1]);
     }
 
 

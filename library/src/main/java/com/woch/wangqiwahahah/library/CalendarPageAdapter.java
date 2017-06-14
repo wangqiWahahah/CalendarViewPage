@@ -16,13 +16,21 @@ public class CalendarPageAdapter extends PagerAdapter {
 
     private int show_year, show_month;
     private int m_position;
+    private BeforeClickDate beforeClickDate;
+    private CalendarDataControl calendarDataControl;
+    private FunctionConfig functionConfig;
+    private ViewPager viewPager;
+    private int now_position;
 
-    public CalendarPageAdapter(Context context, int show_year, int show_month, int m_position){
+    public CalendarPageAdapter(Context context, int show_year, int show_month, int m_position, BeforeClickDate beforeClickDate, CalendarDataControl calendarDataControl, FunctionConfig functionConfig){
 
         this.context = context;
         this.show_month = show_month;
         this.show_year = show_year;
         this.m_position = m_position;
+        this.beforeClickDate = beforeClickDate;
+        this.calendarDataControl = calendarDataControl;
+        this.functionConfig = functionConfig;
 
     }
 
@@ -31,6 +39,12 @@ public class CalendarPageAdapter extends PagerAdapter {
         this.show_month = show_month;
         this.show_year = show_year;
         this.m_position = m_position;
+
+    }
+
+    public void setViewPage(ViewPager viewPager){
+
+        this.viewPager = viewPager;
 
     }
 
@@ -64,8 +78,8 @@ public class CalendarPageAdapter extends PagerAdapter {
         int m_month = show_month;
 
         int[] year_month = CalendarUtils.getInstance().tryToCalculateMonth(m_position, position, show_year, show_month, m_year, m_month);
-        CalendarDataControl calendarDataControl = null;
-        CalendarMonthView calendarMonthView = new CalendarMonthView(context, calendarDataControl);
+        CalendarMonthView calendarMonthView = new CalendarMonthView(context, calendarDataControl, beforeClickDate, functionConfig);
+        calendarMonthView.setViewPage(viewPager, position);
         //calendarMonthView.setReLayout(0);
         //Log.i("CalendarMonthView", m_position+"---------CalendarPageAdapter---position------"+position);
         //Log.i("CalendarMonthView", year_month[0]+"---------CalendarPageAdapter---------"+year_month[1]);

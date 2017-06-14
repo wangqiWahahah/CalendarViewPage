@@ -4,7 +4,8 @@
     android:id="@+id/rl_item"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/rl_month_item"
@@ -31,7 +32,8 @@
         android:text="休"
         android:layout_toRightOf="@+id/tv_day"
         android:layout_alignTop="@+id/tv_day"
-        android:layout_marginLeft="1dp"/>
+        android:layout_marginLeft="1dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_chinese_day"
