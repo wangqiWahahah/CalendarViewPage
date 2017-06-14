@@ -5,7 +5,6 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,6 +137,12 @@ public class CalendarMonthView extends ViewGroup{
                 tv_chinese_day.setVisibility(GONE);
             }
 
+            if (functionConfig.isSET_WEEKEND_COLOR() && CalendarUtils.getInstance().isWeekend(show_year, (show_month-1), i)){
+
+                view.setBackgroundColor(functionConfig.getWEEKEND_COLOR());
+
+            }
+
             if (beforeClickDate != null){
 
                 if (!StringUtils.isEmpty(beforeClickDate.before_date)){
@@ -200,7 +205,14 @@ public class CalendarMonthView extends ViewGroup{
 
                         }else if (beforeClickDate.type == Common){
 
-                            beforeClickDate.before_view.setBackgroundResource(R.color.white);
+                            if (functionConfig.isSET_WEEKEND_COLOR() && CalendarUtils.getInstance().isWeekend(show_year, (show_month-1), beforeClickDate.day)){
+
+                                beforeClickDate.before_view.setBackgroundColor(functionConfig.getWEEKEND_COLOR());
+
+                            }else {
+
+                                beforeClickDate.before_view.setBackgroundResource(R.color.white);
+                            }
 
                         }
 
@@ -230,7 +242,6 @@ public class CalendarMonthView extends ViewGroup{
             //Log.i("CalendarMonthView", LunarCalendar.getInstance().getLunarDate(show_year,(show_month-1),i,false)+"-------------initView--------"+i);
             //addView(view);
 
-            Log.i("CalendarMonthView", "---------my--count----n-----------"+(i-1));
             addView(view, i-1, layoutParams);
 
         }
@@ -241,7 +252,6 @@ public class CalendarMonthView extends ViewGroup{
 
             int b_count = CalendarUtils.getInstance().getMonthOfDayCount(beforeYear, (beforeMonth-1));
 
-            Log.i("CalendarMonthView", month_day_count+"-----------getBeforeYearMonth-------offset--------"+offset);
 
             for (int j=0; j<offset; j++){
 
@@ -255,10 +265,8 @@ public class CalendarMonthView extends ViewGroup{
                 view.setBackgroundResource(R.color.gray);
                 //tv_chinese_day.setLayoutParams(params_chinese_day);
                 int b_day = b_count - (offset - j) + 1;
-                Log.i("CalendarMonthView", b_day+"-----------getBeforeYearMonth---------------"+b_count);
                 tv_day.setText(b_day+"");
                 //tv_holiday.setVisibility(GONE);
-                Log.i("CalendarMonthView", beforeYear+"-----------getBeforeYearMonth---------------"+(beforeMonth-1));
                 if (functionConfig.isSHOW_CHINA_DATE()){
                     tv_chinese_day.setVisibility(VISIBLE);
                     tv_chinese_day.setText(LunarCalendar.getInstance().getLunarDate(beforeYear, beforeMonth,b_day,false));
@@ -283,7 +291,6 @@ public class CalendarMonthView extends ViewGroup{
                 });
 
 
-                Log.i("CalendarMonthView", "---------my--count----b-----------"+(month_day_count+j));
                 addView(view, month_day_count+j, layoutParams);
 
 
@@ -293,7 +300,6 @@ public class CalendarMonthView extends ViewGroup{
             getAfterYearMonth();
             int a_count = CalendarUtils.getInstance().getMonthOfDayCount(afterYear, (afterMonth-1));
             int a_offset = getA_Offset();
-            Log.i("CalendarMonthView", a_offset+"-----------getAfterYearMonth---------------"+a_count);
             for (int y=0; y<a_offset; y++){
 
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.calendar_month_item, null, false);
@@ -306,7 +312,6 @@ public class CalendarMonthView extends ViewGroup{
                 view.setBackgroundResource(R.color.gray);
                 //tv_chinese_day.setLayoutParams(params_chinese_day);
                 int a_day = y+1;
-                Log.i("CalendarMonthView", a_day+"-----------getAfterYearMonth---------------"+b_count);
                 tv_day.setText(a_day+"");
                 //tv_holiday.setVisibility(GONE);
                 if (functionConfig.isSHOW_CHINA_DATE()){
@@ -330,7 +335,6 @@ public class CalendarMonthView extends ViewGroup{
                 });
 
 
-                Log.i("CalendarMonthView", "---------my--count----a-----------"+((month_day_count+offset)+y));
                 addView(view, (month_day_count+offset)+y, layoutParams);
 
             }

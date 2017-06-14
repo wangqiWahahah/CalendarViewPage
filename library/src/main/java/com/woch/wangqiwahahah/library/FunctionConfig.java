@@ -1,5 +1,7 @@
 package com.woch.wangqiwahahah.library;
 
+import android.graphics.Color;
+
 /**
  * Created by wangqiWahahah on 2017/6/12.
  */
@@ -11,9 +13,10 @@ public class FunctionConfig {
     private boolean OPEN_SELECT_RANGE;//是否可以选择日期范围
     private int SELECT_RANGE_DATE_STYLE;//选中日期范围样式
     private boolean SHOW_CHINA_DATE;//显示农历
-    private boolean WEEKEND_GRAY;//周末置灰
     private boolean CLICK_OUTSIDE_DATE_THING;//点击非本月日期展现该月
     private boolean SHOW_BAR;//bar是否显示
+    private String WEEKEND_COLOR;
+    private boolean SET_WEEKEND_COLOR;//是否设置周末
 
     private FunctionConfig(final Builder builder){
 
@@ -22,9 +25,10 @@ public class FunctionConfig {
         this.OPEN_SELECT_RANGE = builder.OPEN_SELECT_RANGE;
         this.SELECT_RANGE_DATE_STYLE = builder.SELECT_RANGE_DATE_STYLE;
         this.SHOW_CHINA_DATE = builder.SHOW_CHINA_DATE;
-        this.WEEKEND_GRAY = builder.WEEKEND_GRAY;
+        this.SET_WEEKEND_COLOR = builder.SET_WEEKEND_COLOR;
         this.CLICK_OUTSIDE_DATE_THING = builder.CLICK_OUTSIDE_DATE_THING;
         this.SHOW_BAR = builder.SHOW_BAR;
+        this.WEEKEND_COLOR = builder.WEEKEND_COLOR;
 
     }
 
@@ -35,9 +39,19 @@ public class FunctionConfig {
         private boolean OPEN_SELECT_RANGE = false;//是否可以选择日期范围
         private int SELECT_RANGE_DATE_STYLE = R.color.blue;//选中日期范围样式
         private boolean SHOW_CHINA_DATE = true;//显示农历
-        private boolean WEEKEND_GRAY = true;//周末置灰
+        private boolean SET_WEEKEND_COLOR = true;//是否设置周末
         private boolean CLICK_OUTSIDE_DATE_THING = false;//点击非本月日期展现该月
         private boolean SHOW_BAR = true;//bar是否显示
+        private String WEEKEND_COLOR = "#D9D9D9"; // 周末的背景颜色
+
+        /**
+         * @param WEEKEND_COLOR #ffffff 这样格式
+         * @return
+         */
+        public Builder setWEEKEND_COLOR(String WEEKEND_COLOR) {
+            this.WEEKEND_COLOR = WEEKEND_COLOR;
+            return this;
+        }
 
         public Builder setSHOW_BAR(boolean SHOW_BAR) {
             this.SHOW_BAR = SHOW_BAR;
@@ -69,8 +83,8 @@ public class FunctionConfig {
             return this;
         }
 
-        public Builder setWEEKEND_GRAY(boolean WEEKEND_GRAY) {
-            this.WEEKEND_GRAY = WEEKEND_GRAY;
+        public Builder isSET_WEEKEND_COLOR(boolean SET_WEEKEND_COLOR) {
+            this.SET_WEEKEND_COLOR = SET_WEEKEND_COLOR;
             return this;
         }
 
@@ -85,6 +99,10 @@ public class FunctionConfig {
 
         }
 
+    }
+
+    public int getWEEKEND_COLOR() {
+        return Color.parseColor(WEEKEND_COLOR);
     }
 
     public boolean isSHOW_BAR() {
@@ -113,8 +131,8 @@ public class FunctionConfig {
         return SHOW_CHINA_DATE;
     }
 
-    public boolean isWEEKEND_GRAY() {
-        return WEEKEND_GRAY;
+    public boolean isSET_WEEKEND_COLOR() {
+        return SET_WEEKEND_COLOR;
     }
 
     public boolean isCLICK_OUTSIDE_DATE_THING() {

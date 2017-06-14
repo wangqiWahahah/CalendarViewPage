@@ -35,6 +35,19 @@ public class CalendarUtils {
         return calendarUtils;
     }
 
+    public boolean isWeekend(int year, int month, int day){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+        int week = calendar.get(Calendar.DAY_OF_WEEK);
+        if (week == 1|| week == 7){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
 
     public int getMonthOfDayCount(int year, int month){
 

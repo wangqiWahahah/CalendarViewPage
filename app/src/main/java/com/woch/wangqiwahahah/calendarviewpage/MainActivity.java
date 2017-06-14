@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity implements CalendarDataContr
                 //.setSELECT_RANGE_DATE_STYLE()
                 .setSHOW_CHINA_DATE(true)
                 .setSHOW_OUTSIDE_DATE(true)
-                .setWEEKEND_GRAY(true)
                 .setSHOW_BAR(false)
+                .setWEEKEND_COLOR("#f34649")
                 .build();
 
         m_calendar_view = (MyCalendarView) findViewById(R.id.m_calendar_view);
