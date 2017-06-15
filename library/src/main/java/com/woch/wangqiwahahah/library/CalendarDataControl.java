@@ -10,4 +10,6 @@ public interface CalendarDataControl {
 
     public abstract int[] getShowTime();
 
+    public abstract void getRangeClickDate(String min_date, String max_date);
+
 }

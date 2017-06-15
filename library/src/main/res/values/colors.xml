@@ -9,8 +9,44 @@
     <color name="orange">#ff6600</color>
     <color name="black">#000000</color>
     <color name="green">#99ffcc</color>
-    <color name="red">#CD5555</color>
     <color name="gray">#D9D9D9</color>
     <color name="blue">#A4D3EE</color>
+
+    <!--黛蓝-->
+    <color name="dark_blue">#415065</color>
+    <!--月白-->
+    <color name="Pale_blue">#d7ecf1</color>
+    <!--胭脂-->
+    <color name="Rouge">#9d2932</color>
+    <!--牙白-->
+    <color name="creamy_yellow">#efdeb0</color>
+    <!--黎-->
+    <color name="Li_brown">#76664d</color>
+    <!--艾青-->
+    <color name="AI_blue">#a3e2c5</color>
+    <!--檀-->
+    <color name="Tan_brown">#b36d61</color>
+    <!--赤-->
+    <color name="red">#c3272b</color>
+    <!--妃色-->
+    <color name="Light_pink_red">#ed5736</color>
+    <!--驼色-->
+    <color name="Camel_brown">#a88462</color>
+    <!--绾-->
+    <color name="Wan_brown">#a98175</color>
+    <!--水绿-->
+    <color name="light_green">#d4f2e8</color>
+    <!--秋春色-->
+    <color name="Autumn_yellow">#b9b612</color>
+    <!--靛青-->
+    <color name="indigo_blue">#177cb0</color>
+    <!--竹青-->
+    <color name="bamboo_bark">#789262</color>
+    <!--黛-->
+    <color name="black_chinese">#494166</color>
+    <!--荼白-->
+    <color name="White_tea">#f3f8f1</color>
+    <!--鸦青-->
+    <color name="reddish_blue">#424b50</color>
 
 </resources>

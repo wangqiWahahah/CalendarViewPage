@@ -20,12 +20,13 @@ public class MainActivity extends AppCompatActivity implements CalendarDataContr
         FunctionConfig functionConfig = new FunctionConfig.Builder()
                 //.setCLICK_DATE_STYLE()
                 .setCLICK_OUTSIDE_DATE_THING(true)
-                //.setOPEN_SELECT_RANGE()
-                //.setSELECT_RANGE_DATE_STYLE()
+                .setOPEN_SELECT_RANGE(true)
+                .setSELECT_RANGE_DATE_STYLE("#b36d61")
                 .setSHOW_CHINA_DATE(true)
                 .setSHOW_OUTSIDE_DATE(true)
                 .setSHOW_BAR(false)
-                .setWEEKEND_COLOR("#f34649")
+                .setWEEKEND_COLOR("#d7ecf1")
+                .setSHOW_OUTSIDE_TODAY(false)
                 .build();
 
         m_calendar_view = (MyCalendarView) findViewById(R.id.m_calendar_view);
@@ -46,6 +47,11 @@ public class MainActivity extends AppCompatActivity implements CalendarDataContr
 
         return new int[]{2017, 5};
 
+    }
+
+    @Override
+    public void getRangeClickDate(String min_date, String max_date) {
+        Log.i("MainActivity", min_date+"----------------"+max_date);
     }
 
 }

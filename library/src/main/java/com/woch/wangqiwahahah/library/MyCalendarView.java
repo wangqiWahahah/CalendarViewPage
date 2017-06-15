@@ -36,6 +36,7 @@ public class MyCalendarView extends LinearLayout implements View.OnClickListener
     private CalendarPageAdapter calendarPageAdapter;
 
     private BeforeClickDate beforeClickDate;
+    private RangeClickDate rangeClickDate;
 
     private CalendarDataControl calendarDataControl;
 
@@ -74,6 +75,7 @@ public class MyCalendarView extends LinearLayout implements View.OnClickListener
     private void init(){
 
         beforeClickDate = new BeforeClickDate();
+        rangeClickDate = new RangeClickDate();
         View view = LayoutInflater.from(getContext()).inflate(R.layout.calendar_layout, null, false);
         rl_title = (RelativeLayout) view.findViewById(R.id.rl_title);
         m_vp_calendar = (ViewPager) view.findViewById(R.id.m_vp_calendar);
@@ -99,7 +101,7 @@ public class MyCalendarView extends LinearLayout implements View.OnClickListener
         if (functionConfig == null){
             functionConfig = new FunctionConfig.Builder().build();
         }
-        calendarPageAdapter = new CalendarPageAdapter(getContext(), show_year, show_month, -1, beforeClickDate, calendarDataControl, functionConfig);
+        calendarPageAdapter = new CalendarPageAdapter(getContext(), show_year, show_month, -1, beforeClickDate, calendarDataControl, functionConfig, rangeClickDate);
 
         m_vp_calendar.setAdapter(calendarPageAdapter);
 

@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by wangqiWahahah on 2017/6/7.
@@ -41,11 +42,16 @@ public class CalendarMonthView extends ViewGroup{
     private ViewPager viewPager;
     private int now_Postion;
 
-    public CalendarMonthView(Context context, CalendarDataControl calendarDataControl, BeforeClickDate beforeClickDate, FunctionConfig functionConfig) {
+    private RangeClickDate rangeClickDate;
+    private CalendarPageAdapter calendarPageAdapter;
+
+    public CalendarMonthView(Context context, CalendarDataControl calendarDataControl, BeforeClickDate beforeClickDate, FunctionConfig functionConfig, int now_Postion, RangeClickDate rangeClickDate) {
         super(context);
         this.calendarDataControl = calendarDataControl;
         this.beforeClickDate = beforeClickDate;
         this.functionConfig = functionConfig;
+        this.now_Postion = now_Postion;
+        this.rangeClickDate = rangeClickDate;
     }
 
     public CalendarMonthView(Context context, AttributeSet attrs) {
@@ -61,11 +67,23 @@ public class CalendarMonthView extends ViewGroup{
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public void setViewPage(ViewPager viewPager, int now_Postion){
+    public void setViewPage(ViewPager viewPager, CalendarPageAdapter calendarPageAdapter){
 
         this.viewPager = viewPager;
-        this.now_Postion = now_Postion;
+        this.calendarPageAdapter = calendarPageAdapter;
 
+    }
+
+    private List<CalendarMonthView> calendarMonthViewList;
+
+    public void setListCmv(List<CalendarMonthView> calendarMonthViewList){
+
+        this.calendarMonthViewList = calendarMonthViewList;
+
+    }
+
+    public void setRangeClickDate(RangeClickDate rangeClickDate){
+        this.rangeClickDate = rangeClickDate;
     }
 
     public void setPositionMonth(int year, int month){
@@ -120,7 +138,7 @@ public class CalendarMonthView extends ViewGroup{
 
         for (int i=1; i<=month_day_count; i++){
 
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.calendar_month_item, null, false);
+            final View view = LayoutInflater.from(getContext()).inflate(R.layout.calendar_month_item, null, false);
             view.setLayoutParams(layoutParams);
             //view.setVisibility(VISIBLE);
             final RelativeLayout rl_month_item = (RelativeLayout) view.findViewById(R.id.rl_month_item);
@@ -130,6 +148,7 @@ public class CalendarMonthView extends ViewGroup{
             //tv_chinese_day.setLayoutParams(params_chinese_day);
             tv_day.setText(i+"");
             //tv_holiday.setVisibility(GONE);
+
             if (functionConfig.isSHOW_CHINA_DATE()){
                 tv_chinese_day.setVisibility(VISIBLE);
                 tv_chinese_day.setText(LunarCalendar.getInstance().getLunarDate(show_year, show_month,i,false));
@@ -140,6 +159,55 @@ public class CalendarMonthView extends ViewGroup{
             if (functionConfig.isSET_WEEKEND_COLOR() && CalendarUtils.getInstance().isWeekend(show_year, (show_month-1), i)){
 
                 view.setBackgroundColor(functionConfig.getWEEKEND_COLOR());
+
+            }
+
+            if (functionConfig.isOPEN_SELECT_RANGE()){
+
+                if (rangeClickDate.l_isClick && rangeClickDate.f_isClick){
+
+                    if (rangeClickDate.first_now_Postion == rangeClickDate.last_now_Postion){
+                        if (rangeClickDate.first_now_Postion == now_Postion){
+
+                            int max_day = Math.max(rangeClickDate.first_day, rangeClickDate.last_day);
+                            int min_day = Math.min(rangeClickDate.first_day, rangeClickDate.last_day);
+                            if (min_day <= i && i <= max_day){
+                                view.setBackgroundColor(functionConfig.getSELECT_RANGE_DATE_STYLE());
+                            }
+
+                        }
+                    }else {
+
+                        int max_Postion = Math.max(rangeClickDate.first_now_Postion, rangeClickDate.last_now_Postion);
+                        int min_Postion = Math.min(rangeClickDate.first_now_Postion, rangeClickDate.last_now_Postion);
+                        if (min_Postion < now_Postion && now_Postion < max_Postion){
+                            view.setBackgroundColor(functionConfig.getSELECT_RANGE_DATE_STYLE());
+                        }
+                        if (min_Postion == now_Postion){
+                            if (rangeClickDate.last_now_Postion == min_Postion && i >= rangeClickDate.last_day){
+                                view.setBackgroundColor(functionConfig.getSELECT_RANGE_DATE_STYLE());
+                            }
+                            if (rangeClickDate.first_now_Postion == min_Postion && i >= rangeClickDate.first_day){
+                                view.setBackgroundColor(functionConfig.getSELECT_RANGE_DATE_STYLE());
+                            }
+                        }
+                        if (max_Postion == now_Postion){
+                            if (rangeClickDate.last_now_Postion == max_Postion && i <= rangeClickDate.last_day){
+                                view.setBackgroundColor(functionConfig.getSELECT_RANGE_DATE_STYLE());
+                            }
+                            if (rangeClickDate.first_now_Postion == max_Postion && i <= rangeClickDate.first_day){
+                                view.setBackgroundColor(functionConfig.getSELECT_RANGE_DATE_STYLE());
+                            }
+                        }
+
+                    }
+
+                }
+                if (rangeClickDate.f_isClick && !rangeClickDate.l_isClick){
+                    if (rangeClickDate.first_now_Postion == now_Postion && rangeClickDate.first_day == i){
+                        view.setBackgroundColor(functionConfig.getSELECT_RANGE_DATE_STYLE());
+                    }
+                }
 
             }
 
@@ -174,11 +242,16 @@ public class CalendarMonthView extends ViewGroup{
                 if (getIsToday(i)){
                     rl_month_item.setBackgroundResource(R.drawable.circle_red);
                 }else {
-                    rl_month_item.setBackgroundResource(R.drawable.circle_gray);
+                    if (functionConfig.isSHOW_OUTSIDE_TODAY()){
+
+                        rl_month_item.setBackgroundResource(R.drawable.circle_gray);
+
+                    }
                 }
             }
 
             final int m_position = i;
+            view.setTag(i);
             view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -188,6 +261,62 @@ public class CalendarMonthView extends ViewGroup{
 //
 //
 //                    }
+
+                    if (functionConfig.isOPEN_SELECT_RANGE()){
+
+                        if (rangeClickDate.f_isClick && rangeClickDate.l_isClick){
+
+                            rangeClickDate.f_isClick = false;
+                            rangeClickDate.l_isClick = false;
+
+                            calendarPageAdapter.notifyDataSetChanged();
+
+                        }
+                        if (!rangeClickDate.f_isClick){
+
+                            rangeClickDate.f_isClick = true;
+                            rangeClickDate.first_date = show_year + "-" + show_month + "-" + view.getTag();
+                            rangeClickDate.first_day = (int) view.getTag();
+                            rangeClickDate.first_month = show_month;
+                            rangeClickDate.first_year = show_year;
+                            rangeClickDate.first_now_Postion = now_Postion;
+                            v.setBackgroundColor(functionConfig.getSELECT_RANGE_DATE_STYLE());
+
+                        }else if (!rangeClickDate.l_isClick){
+
+                            rangeClickDate.l_isClick = true;
+                            rangeClickDate.last_date = show_year + "-" + show_month + "-" + view.getTag();
+                            rangeClickDate.last_day = (int) view.getTag();
+                            rangeClickDate.last_month = show_month;
+                            rangeClickDate.last_year = show_year;
+                            rangeClickDate.last_now_Postion = now_Postion;
+                            v.setBackgroundColor(functionConfig.getSELECT_RANGE_DATE_STYLE());
+                            if (rangeClickDate.first_now_Postion > rangeClickDate.last_now_Postion){
+
+                                calendarDataControl.getRangeClickDate(rangeClickDate.last_date, rangeClickDate.first_date);
+
+                            }else if (rangeClickDate.first_now_Postion < rangeClickDate.last_now_Postion){
+
+                                calendarDataControl.getRangeClickDate(rangeClickDate.first_date, rangeClickDate.last_date);
+
+                            }else {
+
+                                if (rangeClickDate.first_day > rangeClickDate.last_day){
+                                    calendarDataControl.getRangeClickDate(rangeClickDate.last_date, rangeClickDate.first_date);
+                                } else if (rangeClickDate.first_day < rangeClickDate.last_day) {
+                                    calendarDataControl.getRangeClickDate(rangeClickDate.first_date, rangeClickDate.last_date);
+                                }else {
+                                    calendarDataControl.getRangeClickDate(rangeClickDate.first_date, rangeClickDate.last_date);
+                                }
+
+                            }
+                            calendarPageAdapter.notifyDataSetChanged();
+                        }
+                        calendarDataControl.getClickDate(show_year + "-" + show_month + "-" + view.getTag());
+                        return;
+
+                    }
+
                     if (beforeClickDate == null){
                         beforeClickDate = new BeforeClickDate();
                     }
@@ -201,7 +330,36 @@ public class CalendarMonthView extends ViewGroup{
 
                         }else if (beforeClickDate.type == OutsideDay){
 
-                            beforeClickDate.before_view.setBackgroundResource(R.drawable.circle_gray);
+                            if (functionConfig.isSHOW_OUTSIDE_TODAY()){
+
+                                beforeClickDate.before_view.setBackgroundResource(R.drawable.circle_gray);
+
+                            }else {
+
+                                if (functionConfig.isSET_WEEKEND_COLOR() && CalendarUtils.getInstance().isWeekend(beforeClickDate.year, (beforeClickDate.month-1), beforeClickDate.day) && !functionConfig.isSHOW_OUTSIDE_TODAY()){
+
+                                    beforeClickDate.before_view.setBackgroundColor(functionConfig.getWEEKEND_COLOR());
+
+                                }
+                                if (functionConfig.isSET_WEEKEND_COLOR() && CalendarUtils.getInstance().isWeekend(beforeClickDate.year, (beforeClickDate.month-1), beforeClickDate.day) && functionConfig.isSHOW_OUTSIDE_TODAY()){
+
+                                    beforeClickDate.before_view.setBackgroundResource(R.drawable.circle_gray);
+
+                                }
+
+                                if (!functionConfig.isSHOW_OUTSIDE_TODAY()){
+                                    if (!CalendarUtils.getInstance().isWeekend(beforeClickDate.year, (beforeClickDate.month-1), beforeClickDate.day)){
+                                        beforeClickDate.before_view.setBackgroundResource(R.color.white);
+                                    }else {
+
+                                        beforeClickDate.before_view.setBackgroundColor(functionConfig.getWEEKEND_COLOR());
+                                    }
+                                    //ss beforeClickDate.before_view.setBackgroundColor(functionConfig.getWEEKEND_COLOR());
+
+                                }
+                                //beforeClickDate.before_view.setBackgroundColor(functionConfig.getWEEKEND_COLOR());
+
+                            }
 
                         }else if (beforeClickDate.type == Common){
 
@@ -283,6 +441,9 @@ public class CalendarMonthView extends ViewGroup{
                         if (functionConfig.isCLICK_OUTSIDE_DATE_THING()){
                             if (now_Postion >= 1){
                                 now_Postion = now_Postion - 1;
+                                ViewPagerScroller scroller = new ViewPagerScroller(getContext());
+                                scroller.setScrollDuration(1500);
+                                scroller.initViewPagerScroll(viewPager);
                                 viewPager.setCurrentItem(now_Postion);
                             }
                         }
@@ -328,6 +489,9 @@ public class CalendarMonthView extends ViewGroup{
                         calendarDataControl.getClickDate(afterYear+"-"+afterMonth+"-"+v.getTag());
                         if (functionConfig.isCLICK_OUTSIDE_DATE_THING()){
                             now_Postion = now_Postion + 1;
+                            ViewPagerScroller scroller = new ViewPagerScroller(getContext());
+                            scroller.setScrollDuration(1500);
+                            scroller.initViewPagerScroll(viewPager);
                             viewPager.setCurrentItem(now_Postion);
                         }
 
@@ -546,6 +710,5 @@ public class CalendarMonthView extends ViewGroup{
         }
         return result;
     }
-
 
 }

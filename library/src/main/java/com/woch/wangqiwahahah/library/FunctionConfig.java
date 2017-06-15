@@ -11,12 +11,13 @@ public class FunctionConfig {
     private boolean SHOW_OUTSIDE_DATE; //是否显示前后日期
     private int CLICK_DATE_STYLE;//点击样式
     private boolean OPEN_SELECT_RANGE;//是否可以选择日期范围
-    private int SELECT_RANGE_DATE_STYLE;//选中日期范围样式
+    private String SELECT_RANGE_DATE_STYLE;//选中日期范围样式
     private boolean SHOW_CHINA_DATE;//显示农历
     private boolean CLICK_OUTSIDE_DATE_THING;//点击非本月日期展现该月
     private boolean SHOW_BAR;//bar是否显示
     private String WEEKEND_COLOR;
     private boolean SET_WEEKEND_COLOR;//是否设置周末
+    private boolean SHOW_OUTSIDE_TODAY;//是否显示不是当前月的今天
 
     private FunctionConfig(final Builder builder){
 
@@ -29,6 +30,7 @@ public class FunctionConfig {
         this.CLICK_OUTSIDE_DATE_THING = builder.CLICK_OUTSIDE_DATE_THING;
         this.SHOW_BAR = builder.SHOW_BAR;
         this.WEEKEND_COLOR = builder.WEEKEND_COLOR;
+        this.SHOW_OUTSIDE_TODAY = builder.SHOW_OUTSIDE_TODAY;
 
     }
 
@@ -37,12 +39,18 @@ public class FunctionConfig {
         private boolean SHOW_OUTSIDE_DATE = false; //是否显示前后日期
         private int CLICK_DATE_STYLE = R.drawable.hollow_circle_gray;//点击样式
         private boolean OPEN_SELECT_RANGE = false;//是否可以选择日期范围
-        private int SELECT_RANGE_DATE_STYLE = R.color.blue;//选中日期范围样式
+        private String SELECT_RANGE_DATE_STYLE = "#b36d61";//选中日期范围样式
         private boolean SHOW_CHINA_DATE = true;//显示农历
         private boolean SET_WEEKEND_COLOR = true;//是否设置周末
         private boolean CLICK_OUTSIDE_DATE_THING = false;//点击非本月日期展现该月
         private boolean SHOW_BAR = true;//bar是否显示
         private String WEEKEND_COLOR = "#D9D9D9"; // 周末的背景颜色
+        private boolean SHOW_OUTSIDE_TODAY = true;//是否显示不是当前月的今天
+
+        public Builder setSHOW_OUTSIDE_TODAY(boolean SHOW_OUTSIDE_TODAY) {
+            this.SHOW_OUTSIDE_TODAY = SHOW_OUTSIDE_TODAY;
+            return this;
+        }
 
         /**
          * @param WEEKEND_COLOR #ffffff 这样格式
@@ -73,7 +81,7 @@ public class FunctionConfig {
             return this;
         }
 
-        public Builder setSELECT_RANGE_DATE_STYLE(int SELECT_RANGE_DATE_STYLE) {
+        public Builder setSELECT_RANGE_DATE_STYLE(String SELECT_RANGE_DATE_STYLE) {
             this.SELECT_RANGE_DATE_STYLE = SELECT_RANGE_DATE_STYLE;
             return this;
         }
@@ -101,6 +109,10 @@ public class FunctionConfig {
 
     }
 
+    public boolean isSHOW_OUTSIDE_TODAY() {
+        return SHOW_OUTSIDE_TODAY;
+    }
+
     public int getWEEKEND_COLOR() {
         return Color.parseColor(WEEKEND_COLOR);
     }
@@ -124,7 +136,7 @@ public class FunctionConfig {
     }
 
     public int getSELECT_RANGE_DATE_STYLE() {
-        return SELECT_RANGE_DATE_STYLE;
+        return Color.parseColor(SELECT_RANGE_DATE_STYLE);
     }
 
     public boolean isSHOW_CHINA_DATE() {
