@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/rl_month_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="1dp"
+        tools:text="4"/>
+
+    <TextView
+        android:id="@+id/tv_holiday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="6sp"
+        android:textColor="@color/green"
+        tools:text="休"
+        android:text="休"
+        android:layout_toRightOf="@+id/tv_day"
+        android:layout_alignTop="@+id/tv_day"
+        android:layout_marginLeft="1dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_chinese_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="8sp"
+        android:textColor="@color/orange"
+        tools:text="初五"
+        android:layout_below="@+id/tv_day"
+        android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

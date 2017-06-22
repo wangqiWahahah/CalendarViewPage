@@ -5,8 +5,10 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by wangqiWahahah on 2017/6/6.
@@ -24,7 +27,7 @@ import java.util.Date;
 public class MyCalendarView extends LinearLayout implements View.OnClickListener{
 
     private RelativeLayout rl_title;
-    private ViewPager m_vp_calendar;
+    private MyViewPage m_vp_calendar;
     private RecyclerView m_rv_extend;
     private TextView tv_month, tv_week, tv_year;
 
@@ -39,6 +42,8 @@ public class MyCalendarView extends LinearLayout implements View.OnClickListener
     private RangeClickDate rangeClickDate;
 
     private CalendarDataControl calendarDataControl;
+
+    private CalendarEventAdapter calendarEventAdapter;
 
     public MyCalendarView(Context context) {
         super(context);
@@ -71,6 +76,7 @@ public class MyCalendarView extends LinearLayout implements View.OnClickListener
 
     }
 
+    private List<CalendarEventEntity> calendarEventEntitys;
 
     private void init(){
 
@@ -78,15 +84,61 @@ public class MyCalendarView extends LinearLayout implements View.OnClickListener
         rangeClickDate = new RangeClickDate();
         View view = LayoutInflater.from(getContext()).inflate(R.layout.calendar_layout, null, false);
         rl_title = (RelativeLayout) view.findViewById(R.id.rl_title);
-        m_vp_calendar = (ViewPager) view.findViewById(R.id.m_vp_calendar);
+        m_vp_calendar = (MyViewPage) view.findViewById(R.id.m_vp_calendar);
         tv_month = (TextView) rl_title.findViewById(R.id.tv_month);
         tv_week = (TextView) rl_title.findViewById(R.id.tv_week);
         tv_year = (TextView) rl_title.findViewById(R.id.tv_year);
-        //m_rv_extend = (RecyclerView) view.findViewById(R.id.m_rv_extend);
+
+        if (functionConfig == null){
+            functionConfig = new FunctionConfig.Builder().build();
+        }
+
         if (functionConfig.isSHOW_BAR()){
             rl_title.setVisibility(VISIBLE);
         }else {
             rl_title.setVisibility(GONE);
+        }
+
+        if (functionConfig.getEVENT_ITEM_LIST() != null){
+
+            List<CalendarEventEntity> calendarEventEntityList = DatabaseManager.getInstance(functionConfig, getContext()).getQueryAll(CalendarEventEntity.class);
+
+            if (calendarEventEntityList !=null && calendarEventEntityList.size() > 0){
+
+
+                Log.i("functionConfig", "----------calendarEventEntityList----!=null---------");
+                DatabaseManager.getInstance(functionConfig, getContext()).delete(calendarEventEntityList);
+
+            }
+            Log.i("functionConfig", "----------calendarEventEntityList----insertAll---------");
+            calendarEventEntitys = functionConfig.getEVENT_ITEM_LIST();
+            if (calendarEventEntitys != null){
+                //DatabaseManager.getInstance(functionConfig, getContext()).insert(calendarEventEntitys.get(0).getCalendarEventItems().get(0));
+                Log.i("functionConfig", "----------calendarEventEntityList--calendarEventEntitys--不是空---------");
+                //DatabaseManager.getInstance(functionConfig, getContext()).insert(calendarEventEntitys.get(0));
+                DatabaseManager.getInstance(functionConfig, getContext()).insertAll(calendarEventEntitys);
+
+            }
+
+        }
+
+        if (functionConfig.isSHOW_EVENT_LIST()){
+
+            m_rv_extend = (RecyclerView) view.findViewById(R.id.m_rv_extend);
+            m_rv_extend.setVisibility(VISIBLE);
+            m_rv_extend.setLayoutManager(new LinearLayoutManager(getContext()));
+            if (calendarEventAdapter == null){
+                calendarEventAdapter = new CalendarEventAdapter(getContext(), functionConfig);
+                m_rv_extend.setAdapter(calendarEventAdapter);
+            }else {
+                calendarEventAdapter.notifyDataSetChanged();
+            }
+
+        }else {
+            if (m_rv_extend != null){
+                m_rv_extend.setLayoutManager(new LinearLayoutManager(getContext()));
+                m_rv_extend.setVisibility(GONE);
+            }
         }
 
         Calendar calendar = Calendar.getInstance();
@@ -98,10 +150,11 @@ public class MyCalendarView extends LinearLayout implements View.OnClickListener
         if (calendarDataControl == null){
             throw new IllegalArgumentException("you should setControl");
         }
-        if (functionConfig == null){
-            functionConfig = new FunctionConfig.Builder().build();
-        }
+
+
         calendarPageAdapter = new CalendarPageAdapter(getContext(), show_year, show_month, -1, beforeClickDate, calendarDataControl, functionConfig, rangeClickDate);
+
+        calendarPageAdapter.setEventAdapter(calendarEventAdapter);
 
         m_vp_calendar.setAdapter(calendarPageAdapter);
 
@@ -118,9 +171,14 @@ public class MyCalendarView extends LinearLayout implements View.OnClickListener
         tv_week.setText(CalendarUtils.getInstance().getChineseWeek(calendar_P));
 
         addView(view, 0, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+
+
+
         setListener();
 
     }
+
 
     private void setShowTime(int year, int month){
 

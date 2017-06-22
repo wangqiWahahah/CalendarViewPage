@@ -74,6 +74,14 @@ public class CalendarMonthView extends ViewGroup{
 
     }
 
+    private CalendarEventAdapter calendarEventAdapter;
+
+    public void setCalendarEventAdapter(CalendarEventAdapter calendarEventAdapter){
+
+        this.calendarEventAdapter = calendarEventAdapter;
+
+    }
+
     private List<CalendarMonthView> calendarMonthViewList;
 
     public void setListCmv(List<CalendarMonthView> calendarMonthViewList){
@@ -138,7 +146,7 @@ public class CalendarMonthView extends ViewGroup{
 
         for (int i=1; i<=month_day_count; i++){
 
-            final View view = LayoutInflater.from(getContext()).inflate(R.layout.calendar_month_item, null, false);
+            final View view = LayoutInflater.from(getContext()).inflate(functionConfig.getMONTH_STYLE(), null, false);
             view.setLayoutParams(layoutParams);
             //view.setVisibility(VISIBLE);
             final RelativeLayout rl_month_item = (RelativeLayout) view.findViewById(R.id.rl_month_item);
@@ -222,11 +230,11 @@ public class CalendarMonthView extends ViewGroup{
 
                         }else if (beforeClickDate.type == OutsideDay){
 
-                            rl_month_item.setBackgroundResource(R.drawable.hollow_circle_gray);
+                            rl_month_item.setBackgroundResource(functionConfig.getCLICK_DATE_STYLE());
 
                         }else if (beforeClickDate.type == Common){
 
-                            rl_month_item.setBackgroundResource(R.drawable.hollow_circle_gray);
+                            rl_month_item.setBackgroundResource(functionConfig.getCLICK_DATE_STYLE());
 
                         }
                         beforeClickDate.before_view = rl_month_item;
@@ -313,6 +321,7 @@ public class CalendarMonthView extends ViewGroup{
                             calendarPageAdapter.notifyDataSetChanged();
                         }
                         calendarDataControl.getClickDate(show_year + "-" + show_month + "-" + view.getTag());
+                        calendarEventAdapter.setDate(show_year + "-" + show_month + "-" + view.getTag(), functionConfig.getUse_id());
                         return;
 
                     }
@@ -384,7 +393,7 @@ public class CalendarMonthView extends ViewGroup{
                         }else {
                             beforeClickDate.type = 0;
                         }
-                        rl_month_item.setBackgroundResource(R.drawable.hollow_circle_gray);
+                        rl_month_item.setBackgroundResource(functionConfig.getCLICK_DATE_STYLE());
                     }
                     beforeClickDate.before_view = rl_month_item;
                     beforeClickDate.before_date = show_year+"-"+show_month+"-"+m_position;
@@ -393,6 +402,7 @@ public class CalendarMonthView extends ViewGroup{
                     beforeClickDate.day = m_position;
 
                     calendarDataControl.getClickDate(beforeClickDate.before_date);
+                    calendarEventAdapter.setDate(beforeClickDate.before_date, functionConfig.getUse_id());
 
                 }
             });
@@ -413,7 +423,7 @@ public class CalendarMonthView extends ViewGroup{
 
             for (int j=0; j<offset; j++){
 
-                View view = LayoutInflater.from(getContext()).inflate(R.layout.calendar_month_item, null, false);
+                View view = LayoutInflater.from(getContext()).inflate(functionConfig.getMONTH_STYLE(), null, false);
                 view.setLayoutParams(layoutParams);
                 //view.setVisibility(VISIBLE);
                 final RelativeLayout rl_month_item = (RelativeLayout) view.findViewById(R.id.rl_month_item);
@@ -438,6 +448,7 @@ public class CalendarMonthView extends ViewGroup{
                     public void onClick(View v) {
 
                         calendarDataControl.getClickDate(beforeYear+"-"+beforeMonth+"-"+v.getTag());
+                        calendarEventAdapter.setDate(beforeYear+"-"+beforeMonth+"-"+v.getTag(), functionConfig.getUse_id());
                         if (functionConfig.isCLICK_OUTSIDE_DATE_THING()){
                             if (now_Postion >= 1){
                                 now_Postion = now_Postion - 1;
@@ -463,7 +474,7 @@ public class CalendarMonthView extends ViewGroup{
             int a_offset = getA_Offset();
             for (int y=0; y<a_offset; y++){
 
-                View view = LayoutInflater.from(getContext()).inflate(R.layout.calendar_month_item, null, false);
+                View view = LayoutInflater.from(getContext()).inflate(functionConfig.getMONTH_STYLE(), null, false);
                 view.setLayoutParams(layoutParams);
                 //view.setVisibility(VISIBLE);
                 final RelativeLayout rl_month_item = (RelativeLayout) view.findViewById(R.id.rl_month_item);

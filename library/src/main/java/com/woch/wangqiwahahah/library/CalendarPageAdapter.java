@@ -49,6 +49,14 @@ public class CalendarPageAdapter extends PagerAdapter {
 
     }
 
+    private CalendarEventAdapter calendarEventAdapter;
+
+    public void setEventAdapter(CalendarEventAdapter calendarEventAdapter){
+
+        this.calendarEventAdapter = calendarEventAdapter;
+
+    }
+
     public void setViewPage(ViewPager viewPager){
 
         this.viewPager = viewPager;
@@ -93,6 +101,7 @@ public class CalendarPageAdapter extends PagerAdapter {
         CalendarMonthView calendarMonthView = new CalendarMonthView(context, calendarDataControl, beforeClickDate, functionConfig, position, rangeClickDate);
         //calendarMonthViewList.add(calendarMonthView);
         calendarMonthView.setViewPage(viewPager, this);
+        calendarMonthView.setCalendarEventAdapter(calendarEventAdapter);
         //calendarMonthView.setReLayout(0);
         //Log.i("CalendarMonthView", m_position+"---------CalendarPageAdapter---position------"+position);
         //Log.i("CalendarMonthView", year_month[0]+"---------CalendarPageAdapter---------"+year_month[1]);

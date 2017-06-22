@@ -114,19 +114,21 @@
     </RelativeLayout>
 
 
-    <android.support.v4.view.ViewPager
+    <com.woch.wangqiwahahah.library.MyViewPage
         android:id="@+id/m_vp_calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_title">
+        android:layout_below="@+id/rl_title"
+        android:background="@color/blue">
 
-    </android.support.v4.view.ViewPager>
+    </com.woch.wangqiwahahah.library.MyViewPage>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/m_rv_extend"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/m_vp_calendar">
+        android:layout_height="100dp"
+        android:layout_below="@+id/m_vp_calendar"
+        android:background="@color/red">
 
     </android.support.v7.widget.RecyclerView>
 
